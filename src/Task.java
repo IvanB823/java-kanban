@@ -3,14 +3,20 @@ import java.util.Objects;
 public class Task {
     private String taskName;
     private String description;
-    int id;
+    private int id;
     private StatusOfTask status;
 
-    public Task(String taskName, String description, int id){
+    public Task(String taskName, String description){
         this.taskName = taskName;
         this.description = description;
-        this.id = id;
         this.status = StatusOfTask.NEW;
+    }
+
+    public Task(String taskName, String description, StatusOfTask status, int id){
+        this.taskName = taskName;
+        this.description = description;
+        this.status = status;
+        this.id = id;
     }
 
     public String getTaskName() {
@@ -25,6 +31,10 @@ public class Task {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public StatusOfTask getStatus() {
         return status;
     }
@@ -33,21 +43,28 @@ public class Task {
         this.status = status;
     }
 
+
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true; // проверяем адреса объектов
-        if (obj == null) return false; // проверяем ссылку на null
-        if (this.getClass() != obj.getClass()) return false; // сравниваем классы
-        Task task = (Task) obj; // открываем доступ к полям другого объекта
-        return Objects.equals(taskName, task.taskName) && // проверяем все поля
-                Objects.equals(description, task.description) &&
-                Objects.equals(status, task.status) && // нужно логическое «и»
-                (id == task.id); // примитивы сравниваем через ==
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return id == task.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(taskName, description, id, status);
+        return Objects.hashCode(id);
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getName() + "{" +
+                "taskName='" + taskName + '\'' +
+                ", description='" + description + '\'' +
+                ", id=" + id +
+                ", status=" + status +
+                '}';
     }
 }
 
