@@ -1,3 +1,5 @@
+package tasksTypes;
+
 import java.util.Objects;
 
 public class Task {

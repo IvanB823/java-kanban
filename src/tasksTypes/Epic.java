@@ -1,3 +1,5 @@
+package tasksTypes;
+
 import java.util.ArrayList;
 
 public class Epic extends Task {
@@ -12,7 +14,7 @@ public class Epic extends Task {
         super(taskName, description);
         this.setId(id);
         this.subTasksIds = subTasksIds;
-    }  //
+    }
 
 
 
