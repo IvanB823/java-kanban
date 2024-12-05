@@ -16,7 +16,19 @@ public class Epic extends Task {
         this.subTasksIds = subTasksIds;
     }
 
+    public Epic(String taskName, String description, int id) { // исключительно для тестов
+        super(taskName, description);
+        this.setId(id);
+    }
 
+
+
+    public void addSubtask(int subtaskId) {
+        if (subtaskId != this.getId()) {
+            subTasksIds.add(subtaskId);
+
+        }
+    }
 
     public ArrayList<Integer> getSubTasksIds() {
         return subTasksIds;

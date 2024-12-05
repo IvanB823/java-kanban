@@ -1,7 +1,5 @@
-import managersTypes.InMemoryHistoryManager;
-import managersTypes.InMemoryTaskManager;
-import managersTypes.Managers;
-import managersTypes.TaskManager;
+package managersTypes;
+
 import tasksTypes.Epic;
 import tasksTypes.StatusOfTask;
 import tasksTypes.SubTask;
@@ -28,7 +26,7 @@ public class Main {
                 , 1));
         System.out.println(inMemoryTaskManager.getAllTasks());
         inMemoryTaskManager.updateSubTask(new SubTask("NEW Задача2", "NEW тема ПОДзадачи 2", StatusOfTask.NEW, 4, inMemoryTaskManager.getSubTask(4).getEpicId()));
-        inMemoryTaskManager.updateSubTask(new SubTask("NEW Задача3", "NEW тема ПОДз========================адачи 3", StatusOfTask.NEW, 3, inMemoryTaskManager.getSubTask(4).getEpicId()));
+        inMemoryTaskManager.updateSubTask(new SubTask("NEW Задача3", "NEW тема ПОДзадачи 3", StatusOfTask.NEW, 3, inMemoryTaskManager.getSubTask(4).getEpicId()));
         inMemoryTaskManager.updateSubTask(new SubTask("NEW Задача4", "NEW тема ПОДзадачи 4", StatusOfTask.IN_PROGRESS, 6, inMemoryTaskManager.getSubTask(4).getEpicId()));
         System.out.println(inMemoryTaskManager.getAllSubTasks());
 

@@ -1,7 +1,6 @@
 package managersTypes;
 
 import tasksTypes.Task;
-
 import java.util.ArrayList;
 import java.util.List;
 
