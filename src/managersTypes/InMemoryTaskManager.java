@@ -23,6 +23,11 @@ public class InMemoryTaskManager implements TaskManager {
         subtasks = new HashMap<>();
     }
 
+    @Override
+    public List<Task> getHistory(){
+
+        return historyManager.getHistory();
+    }
 
     @Override
     public ArrayList<Task> getAllTasks() {
@@ -200,8 +205,6 @@ public class InMemoryTaskManager implements TaskManager {
         return nextId++;
     }
 
-    public List<Task> getHistory() {
-        return historyManager.getHistory();
-    }
+
 
 }

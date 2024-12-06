@@ -1,5 +1,5 @@
 package managersTypes;
-
+import java.util.List;
 import tasksTypes.Epic;
 import tasksTypes.SubTask;
 import tasksTypes.Task;
@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public interface TaskManager {
 
+    List<Task> getHistory();
 
     ArrayList<Task> getAllTasks();
 
