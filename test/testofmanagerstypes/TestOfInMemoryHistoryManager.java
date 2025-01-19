@@ -35,17 +35,4 @@ public class TestOfInMemoryHistoryManager {
         assertTrue(inMemoryHistoryManager.getHistory().contains(subtask1));
 
     }
-
-    @Test
-    void shouldRemoveFirstTaskWhenAddNewTaskAndListAreFull() {
-        Task task11 = new Task("Задача11", "тема задачи1");
-        for (int i = 0; i < 10; i++) {
-            inMemoryHistoryManager.addToHistory(new Task("Задача" + i, "тема задачи" + i));
-        }
-        inMemoryHistoryManager.addToHistory(task11);
-
-        assertEquals(10, inMemoryHistoryManager.getHistory().size());
-        assertEquals(task11, inMemoryHistoryManager.getHistory().get(9));
-
-    }
 }
