@@ -1,5 +1,5 @@
-package managersTypes;
-import tasksTypes.Task;
+package ManagersTypes;
+import TasksTypes.Task;
 import java.util.List;
 
 public interface HistoryManager {

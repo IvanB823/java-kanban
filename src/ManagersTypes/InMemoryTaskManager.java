@@ -1,9 +1,9 @@
-package managersTypes;
+package ManagersTypes;
 
-import tasksTypes.Epic;
-import tasksTypes.StatusOfTask;
-import tasksTypes.SubTask;
-import tasksTypes.Task;
+import TasksTypes.Epic;
+import TasksTypes.StatusOfTask;
+import TasksTypes.SubTask;
+import TasksTypes.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;

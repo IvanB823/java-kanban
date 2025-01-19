@@ -1,10 +1,10 @@
-package testOfManagersTypes;
-import managersTypes.Managers;
-import tasksTypes.StatusOfTask;
-import tasksTypes.Epic;
-import tasksTypes.SubTask;
-import tasksTypes.Task;
-import managersTypes.TaskManager;
+package TestOfManagersTypes;
+import ManagersTypes.Managers;
+import TasksTypes.StatusOfTask;
+import TasksTypes.Epic;
+import TasksTypes.SubTask;
+import TasksTypes.Task;
+import ManagersTypes.TaskManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

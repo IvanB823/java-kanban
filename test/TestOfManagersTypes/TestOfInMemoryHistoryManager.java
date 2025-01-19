@@ -1,12 +1,12 @@
-package testOfManagersTypes;
+package TestOfManagersTypes;
 
-import managersTypes.HistoryManager;
-import managersTypes.Managers;
+import ManagersTypes.HistoryManager;
+import ManagersTypes.Managers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import tasksTypes.Epic;
-import tasksTypes.Task;
-import tasksTypes.SubTask;
+import TasksTypes.Epic;
+import TasksTypes.Task;
+import TasksTypes.SubTask;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;

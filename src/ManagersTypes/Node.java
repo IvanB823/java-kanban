@@ -1,6 +1,6 @@
-package managersTypes;
+package ManagersTypes;
 
-import tasksTypes.Task;
+import TasksTypes.Task;
 
 public class Node {
     private Task task;

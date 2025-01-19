@@ -1,7 +1,7 @@
-package testOfTasksTypes;
+package TestOfTasksTypes;
 
 import org.junit.jupiter.api.Test;
-import tasksTypes.Epic;
+import TasksTypes.Epic;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
