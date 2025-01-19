@@ -30,7 +30,7 @@ public class TestOfInMemoryTaskManager {
     }
 
     @Test
-    void shouldKeepOnlyUniqueIdsInHistory(){
+    void shouldKeepOnlyUniqueIdsInHistory() {
         taskManager.addTask(new Task("Задача1", "тема задачи 1"));
         taskManager.addTask(new Task("Задача2", "тема задачи 2"));
         taskManager.getTask(0);
@@ -41,7 +41,7 @@ public class TestOfInMemoryTaskManager {
     }
 
     @Test
-    void shouldGetCorrectTaskFromHistoryById(){
+    void shouldGetCorrectTaskFromHistoryById() {
         taskManager.addTask(new Task("Задача1", "тема задачи 1"));
         taskManager.addTask(new Task("Задача2", "тема задачи 2"));
         taskManager.getTask(0);
