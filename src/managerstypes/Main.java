@@ -1,9 +1,9 @@
-package ManagersTypes;
+package managerstypes;
 
-import TasksTypes.Epic;
-import TasksTypes.StatusOfTask;
-import TasksTypes.SubTask;
-import TasksTypes.Task;
+import taskstypes.Epic;
+import taskstypes.StatusOfTask;
+import taskstypes.SubTask;
+import taskstypes.Task;
 
 public class Main {
 

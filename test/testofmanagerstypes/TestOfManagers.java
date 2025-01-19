@@ -1,8 +1,8 @@
-package TestOfManagersTypes;
+package testofmanagerstypes;
 
-import ManagersTypes.HistoryManager;
-import ManagersTypes.Managers;
-import ManagersTypes.TaskManager;
+import managerstypes.HistoryManager;
+import managerstypes.Managers;
+import managerstypes.TaskManager;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;

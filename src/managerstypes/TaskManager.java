@@ -1,8 +1,8 @@
-package ManagersTypes;
+package managerstypes;
 import java.util.List;
-import TasksTypes.Epic;
-import TasksTypes.SubTask;
-import TasksTypes.Task;
+import taskstypes.Epic;
+import taskstypes.SubTask;
+import taskstypes.Task;
 
 import java.util.ArrayList;
 

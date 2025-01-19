@@ -1,8 +1,8 @@
-package TestOfTasksTypes;
+package testoftaskstypes;
 
 import org.junit.jupiter.api.Test;
-import TasksTypes.Task;
-import TasksTypes.StatusOfTask;
+import taskstypes.Task;
+import taskstypes.StatusOfTask;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TaskTest {

@@ -1,4 +1,4 @@
-package ManagersTypes;
+package managerstypes;
 
 public class Managers {
 

@@ -1,9 +1,9 @@
-package TestOfTasksTypes;
+package testoftaskstypes;
 
 import org.junit.jupiter.api.Test;
-import TasksTypes.Epic;
-import TasksTypes.StatusOfTask;
-import TasksTypes.SubTask;
+import taskstypes.Epic;
+import taskstypes.StatusOfTask;
+import taskstypes.SubTask;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
