@@ -28,8 +28,7 @@ public class Main {
         inMemoryTaskManager.addSubTask(new SubTask("подЗадача3", "тема задачи 3", 4));
         inMemoryTaskManager.addSubTask(new SubTask("подЗадача4", "тема задачи 4", 4));
         System.out.println(inMemoryTaskManager.getAllSubTasks());
-        inMemoryTaskManager.updateTask(new Task("NEW Задача4", "NEW тема задачи 4", StatusOfTask.IN_PROGRESS
-                , 1));
+        inMemoryTaskManager.updateTask(new Task("NEW Задача4", "NEW тема задачи 4", StatusOfTask.IN_PROGRESS, 1));
         System.out.println(inMemoryTaskManager.getAllTasks());
         inMemoryTaskManager.updateSubTask(new SubTask("NEW Задача2", "NEW тема ПОДзадачи 2", StatusOfTask.NEW, 4, inMemoryTaskManager.getSubTask(5).getEpicId()));
         inMemoryTaskManager.updateSubTask(new SubTask("NEW Задача3", "NEW тема ПОДзадачи 3", StatusOfTask.NEW, 4, inMemoryTaskManager.getSubTask(6).getEpicId()));
@@ -38,7 +37,7 @@ public class Main {
 
         inMemoryTaskManager.updateEpic(new Epic("Эпик2", "тема эпика 2", 4, inMemoryTaskManager.getEpic(4).getSubTasksIds()));
         System.out.println(inMemoryTaskManager.getAllEpics());
-            inMemoryTaskManager.removeEpic(4);
+        inMemoryTaskManager.removeEpic(4);
         System.out.println(inMemoryTaskManager.getAllEpics());
         System.out.println(inMemoryTaskManager.getAllSubTasks());
         inMemoryTaskManager.getTask(1);
