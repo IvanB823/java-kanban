@@ -30,6 +30,29 @@ public class TestOfInMemoryTaskManager {
     }
 
     @Test
+    void shouldKeepOnlyUniqueIdsInHistory(){
+        taskManager.addTask(new Task("Задача1", "тема задачи 1"));
+        taskManager.addTask(new Task("Задача2", "тема задачи 2"));
+        taskManager.getTask(0);
+        taskManager.getTask(1);
+        taskManager.getTask(1);
+        taskManager.getTask(0);
+        assertEquals(2, taskManager.getHistory().size());
+    }
+
+    @Test
+    void shouldGetCorrectTaskFromHistoryById(){
+        taskManager.addTask(new Task("Задача1", "тема задачи 1"));
+        taskManager.addTask(new Task("Задача2", "тема задачи 2"));
+        taskManager.getTask(0);
+        taskManager.getTask(1);
+        taskManager.getTask(1);
+        taskManager.getTask(0);
+        assertEquals(taskManager.getTask(1), taskManager.getHistory().get(1));
+        int i = taskManager.getHistory().size();
+    }
+
+    @Test
     void shouldAddAndGetNewTasks() {
         taskManager.addTask(task1);
         Task task = taskManager.getTask(task1.getId());
