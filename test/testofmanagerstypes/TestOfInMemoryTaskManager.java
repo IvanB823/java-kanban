@@ -1,10 +1,10 @@
-package testOfManagersTypes;
-import managersTypes.Managers;
-import tasksTypes.StatusOfTask;
-import tasksTypes.Epic;
-import tasksTypes.SubTask;
-import tasksTypes.Task;
-import managersTypes.TaskManager;
+package testofmanagerstypes;
+import managerstypes.Managers;
+import taskstypes.StatusOfTask;
+import taskstypes.Epic;
+import taskstypes.SubTask;
+import taskstypes.Task;
+import managerstypes.TaskManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,6 +27,29 @@ public class TestOfInMemoryTaskManager {
         epic1 = new Epic("Эпик1", "Описание эпика1");
         epic2 = new Epic("Эпик2", "Сегодня эпика2");
 
+    }
+
+    @Test
+    void shouldKeepOnlyUniqueIdsInHistory() {
+        taskManager.addTask(new Task("Задача1", "тема задачи 1"));
+        taskManager.addTask(new Task("Задача2", "тема задачи 2"));
+        taskManager.getTask(0);
+        taskManager.getTask(1);
+        taskManager.getTask(1);
+        taskManager.getTask(0);
+        assertEquals(2, taskManager.getHistory().size());
+    }
+
+    @Test
+    void shouldGetCorrectTaskFromHistoryById() {
+        taskManager.addTask(new Task("Задача1", "тема задачи 1"));
+        taskManager.addTask(new Task("Задача2", "тема задачи 2"));
+        taskManager.getTask(0);
+        taskManager.getTask(1);
+        taskManager.getTask(1);
+        taskManager.getTask(0);
+        assertEquals(taskManager.getTask(1), taskManager.getHistory().get(1));
+        int i = taskManager.getHistory().size();
     }
 
     @Test

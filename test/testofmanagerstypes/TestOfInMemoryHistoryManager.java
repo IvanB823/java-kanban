@@ -1,12 +1,12 @@
-package testOfManagersTypes;
+package testofmanagerstypes;
 
-import managersTypes.HistoryManager;
-import managersTypes.Managers;
+import managerstypes.HistoryManager;
+import managerstypes.Managers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import tasksTypes.Epic;
-import tasksTypes.Task;
-import tasksTypes.SubTask;
+import taskstypes.Epic;
+import taskstypes.Task;
+import taskstypes.SubTask;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -33,19 +33,6 @@ public class TestOfInMemoryHistoryManager {
         assertTrue(inMemoryHistoryManager.getHistory().contains(task1));
         assertTrue(inMemoryHistoryManager.getHistory().contains(epic1));
         assertTrue(inMemoryHistoryManager.getHistory().contains(subtask1));
-
-    }
-
-    @Test
-    void shouldRemoveFirstTaskWhenAddNewTaskAndListAreFull() {
-        Task task11 = new Task("Задача11", "тема задачи1");
-        for (int i = 0; i < 10; i++) {
-            inMemoryHistoryManager.addToHistory(new Task("Задача" + i, "тема задачи" + i));
-        }
-        inMemoryHistoryManager.addToHistory(task11);
-
-        assertEquals(10, inMemoryHistoryManager.getHistory().size());
-        assertEquals(task11, inMemoryHistoryManager.getHistory().get(9));
 
     }
 }
