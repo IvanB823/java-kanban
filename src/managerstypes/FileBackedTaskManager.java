@@ -89,8 +89,21 @@ public class FileBackedTaskManager extends InMemoryTaskManager{
         save();
     }
 
-    public void save(){
-
+    private String toString(Task task) {
+        if (task instanceof SubTask) {
+            SubTask subtask = (SubTask) task;
+            return subtask.getId() + ",SUBTASK," + subtask.getTaskName() + "," + subtask.getStatus() + ","
+                    + subtask.getDescription() + "," + subtask.getEpicId() + "\n";
+        } else if (task instanceof Epic) {
+            Epic epic = (Epic) task;
+            return epic.getId() + ",EPIC," + epic.getTaskName() + "," + epic.getStatus() + ","
+                    + epic.getDescription() + ",\n";
+        } else {
+            return task.getId() + ",TASK," + task.getTaskName() + "," + task.getStatus() + ","
+                    + task.getDescription() + ",\n";
+        }
     }
 
+    public void save(){
+    }
 }
