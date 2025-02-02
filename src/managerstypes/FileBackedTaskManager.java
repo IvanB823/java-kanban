@@ -7,12 +7,13 @@ import taskstypes.Task;
 import java.io.*;
 import java.nio.file.Files;
 
-public class FileBackedTaskManager extends InMemoryTaskManager{
+public class FileBackedTaskManager extends InMemoryTaskManager {
     private final File file;
 
     public FileBackedTaskManager(File file) {
         this.file = file;
     }
+
     public static void main(String[] args) throws IOException { // тестовый мейн
         File file = File.createTempFile("file", ".csv", null);
         FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(file);
