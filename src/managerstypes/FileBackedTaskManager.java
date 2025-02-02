@@ -4,10 +4,7 @@ import taskstypes.Epic;
 import taskstypes.StatusOfTask;
 import taskstypes.SubTask;
 import taskstypes.Task;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
+import java.io.*;
 import java.nio.file.Files;
 
 public class FileBackedTaskManager extends InMemoryTaskManager{
@@ -16,10 +13,37 @@ public class FileBackedTaskManager extends InMemoryTaskManager{
     public FileBackedTaskManager(File file) {
         this.file = file;
     }
+    public static void main(String[] args) throws IOException { // тестовый мейн
+        File file = File.createTempFile("file", ".csv", null);
+        FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(file);
+
+        Task task = new Task("Задача 1", "тема задачи 1");
+        fileBackedTaskManager.addTask(task);
+        Task task2 = new Task("Задача 2", "тема задачи 2");
+        fileBackedTaskManager.addTask(task2);
+        Task task3 = new Task("Задача 3", "тема задачи 3");
+        fileBackedTaskManager.addTask(task3);
+
+        Epic epic = new Epic("Эпик 1", "тема эпика 1");
+        fileBackedTaskManager.addEpic(epic);
+        Epic epic2 = new Epic("Эпик 2", "тема эпика 2");
+        fileBackedTaskManager.addEpic(epic2);
+
+        SubTask subtask = new SubTask("подЗадача1", "тема задачи 1", epic.getId());
+        fileBackedTaskManager.addSubTask(subtask);
+        SubTask subtask2 = new SubTask("подЗадача2", "тема задачи 2", epic.getId());
+        fileBackedTaskManager.addSubTask(subtask2);
+
+        FileBackedTaskManager loadedFileBackedTaskManager = loadFromFile(file);
+
+        System.out.println("Количество задач: " + loadedFileBackedTaskManager.getAllTasks().size());
+        System.out.println("Количество эпиков: " + loadedFileBackedTaskManager.getAllEpics().size());
+        System.out.println("Количество подзадач: " + loadedFileBackedTaskManager.getAllSubTasks().size());
+    }
 
     public void save() {
         try (Writer writer = new FileWriter(file)) {
-            writer.write("id,type,name,status,description,epic\n"); // Заголовок CSV
+            writer.write("id,type,name,status,description,epic\n");
             for (Task task : getAllTasks()) {
                 writer.write(toString(task));
             }
@@ -32,6 +56,34 @@ public class FileBackedTaskManager extends InMemoryTaskManager{
         } catch (IOException exception) {
             throw new ManagerSaveException("ОШИБКА: данные не сохранены в файл",exception);
         }
+    }
+
+    public static FileBackedTaskManager loadFromFile(File file) {
+        FileBackedTaskManager manager = new FileBackedTaskManager(file);
+
+        try (BufferedReader reader = Files.newBufferedReader(file.toPath())) {
+            String line;
+            reader.readLine();
+            while ((line = reader.readLine()) != null) {
+                Task task = manager.fromString(line);
+
+                if (task.getClass() == Task.class) {
+                    manager.tasks.put(task.getId(), task);
+                }
+
+                if (task instanceof Epic) {
+                    manager.epics.put(task.getId(), (Epic) task);
+                }
+
+                if (task instanceof SubTask) {
+                    manager.subtasks.put(task.getId(), (SubTask) task);
+                }
+
+            }
+        } catch (IOException exception) {
+            throw new RuntimeException("ОШИБКА: данные не сохранены из файла", exception);
+        }
+        return manager;
     }
 
     @Override
@@ -133,7 +185,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager{
                 int epicId = Integer.parseInt(parts[5]);
                 return new SubTask(parts[2], parts[4], StatusOfTask.valueOf(parts[3]), id, epicId);
             case "EPIC":
-                return new Epic(parts[2], parts[4], id, null); // Здесь можно добавить логику для подзадач, если нужно
+                return new Epic(parts[2], parts[4], id, null);
             default:
                 throw new IllegalArgumentException("Unknown task type: " + type);
         }
