@@ -42,23 +42,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         System.out.println("Количество подзадач: " + loadedFileBackedTaskManager.getAllSubTasks().size());
     }
 
-    public void save() {
-        try (Writer writer = new FileWriter(file)) {
-            writer.write("id,type,name,status,description,epic\n");
-            for (Task task : getAllTasks()) {
-                writer.write(toString(task));
-            }
-            for (Epic epic : getAllEpics()) {
-                writer.write(toString(epic));
-            }
-            for (SubTask subtask : getAllSubTasks()) {
-                writer.write(toString(subtask));
-            }
-        } catch (IOException exception) {
-            throw new ManagerSaveException("ОШИБКА: данные не сохранены в файл",exception);
-        }
-    }
-
     public static FileBackedTaskManager loadFromFile(File file) {
         FileBackedTaskManager manager = new FileBackedTaskManager(file);
 
@@ -157,6 +140,23 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     public void removeAllSubTasks() {
         super.removeAllSubTasks();
         save();
+    }
+
+    private void save() {
+        try (Writer writer = new FileWriter(file)) {
+            writer.write("id,type,name,status,description,epic\n");
+            for (Task task : getAllTasks()) {
+                writer.write(toString(task));
+            }
+            for (Epic epic : getAllEpics()) {
+                writer.write(toString(epic));
+            }
+            for (SubTask subtask : getAllSubTasks()) {
+                writer.write(toString(subtask));
+            }
+        } catch (IOException exception) {
+            throw new ManagerSaveException("ОШИБКА: данные не сохранены в файл", exception);
+        }
     }
 
     private String toString(Task task) {
