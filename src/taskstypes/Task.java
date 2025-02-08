@@ -1,5 +1,7 @@
 package taskstypes;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Task {
@@ -7,11 +9,21 @@ public class Task {
     private String description;
     private int id;
     private StatusOfTask status;
+    private Duration duration;
+    private LocalDateTime startTime;
 
     public Task(String taskName, String description) {
         this.taskName = taskName;
         this.description = description;
         this.status = StatusOfTask.NEW;
+    }
+
+    public Task(String taskName, String description, Duration duration, LocalDateTime startTime) {
+        this.taskName = taskName;
+        this.description = description;
+        this.status = StatusOfTask.NEW;
+        this.duration = duration;
+        this.startTime = startTime;
     }
 
     public Task(String taskName, String description, StatusOfTask status, int id) {
@@ -45,6 +57,14 @@ public class Task {
         this.status = status;
     }
 
+    public static LocalDateTime getEndTime(LocalDateTime startTime, Duration duration) {
+
+        if (startTime == null || duration == null) {
+            throw new IllegalArgumentException("startTime и duration не должны быть null");
+        }
+
+        return startTime.plus(duration);
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -1,5 +1,7 @@
 package taskstypes;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Epic extends Task {
@@ -20,6 +22,12 @@ public class Epic extends Task {
         super(taskName, description);
         this.setId(id);
     }
+
+    public Epic(String taskName, String description, Duration duration, LocalDateTime startTime, int id) { // исключительно для тестов
+        super(taskName, description, duration, startTime);
+        this.setId(id);
+    }
+
 
 
 
