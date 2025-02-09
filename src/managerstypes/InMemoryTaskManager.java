@@ -6,6 +6,7 @@ import taskstypes.SubTask;
 import taskstypes.Task;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class InMemoryTaskManager implements TaskManager {
     protected  HashMap<Integer, Task> tasks;
@@ -174,16 +175,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public ArrayList<SubTask> getSubTasksForEpic(int epicId) {
-        ArrayList<SubTask> result = new ArrayList<>();
-        Epic epic = epics.get(epicId);
-        if (epic != null) {
-            for (int subTaskId : epic.getSubTasksIds()) {
-                if (subtasks.containsKey(subTaskId)) {
-                    result.add(subtasks.get(subTaskId));
-                }
-            }
-        }
-        return result;
+        return epics.get(epicId).getSubTasksIds().stream()
+                .map(subtasks::get)
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
 
@@ -193,33 +187,20 @@ public class InMemoryTaskManager implements TaskManager {
             return;
         }
 
-        boolean isNew = true;
-        boolean isDone = true;
+        boolean hasInProgress = epic.getSubTasksIds().stream()
+                .map(subTaskId -> subtasks.get(subTaskId).getStatus())
+                .anyMatch(status -> status == StatusOfTask.IN_PROGRESS);
 
-        for (Integer subTasksId : epic.getSubTasksIds()) {
-            SubTask aSubtask = subtasks.get(subTasksId);
+        boolean allDone = epic.getSubTasksIds().stream()
+                .map(subTaskId -> subtasks.get(subTaskId).getStatus())
+                .allMatch(status -> status == StatusOfTask.DONE);
 
-            switch (aSubtask.getStatus()) {
-                case IN_PROGRESS:
-                    isNew = false;
-                    isDone = false;
-                    break;
-                case DONE:
-                    isNew = false;
-                    break;
-                case NEW:
-                    isDone = false;
-                    break;
-            }
-
-            if (!isNew && !isDone) {
-                epic.setStatus(StatusOfTask.IN_PROGRESS);
-            } else if (isDone) {
-                epic.setStatus(StatusOfTask.DONE);
-            } else {
-                epic.setStatus(StatusOfTask.NEW);
-            }
-
+        if (hasInProgress) {
+            epic.setStatus(StatusOfTask.IN_PROGRESS);
+        } else if (allDone) {
+            epic.setStatus(StatusOfTask.DONE);
+        } else {
+            epic.setStatus(StatusOfTask.NEW);
         }
     }
 
