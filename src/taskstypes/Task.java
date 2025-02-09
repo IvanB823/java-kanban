@@ -73,12 +73,10 @@ public class Task {
         this.startTime = startTime;
     }
 
-    public static LocalDateTime getEndTime(LocalDateTime startTime, Duration duration) {
-
+    public LocalDateTime getEndTime() {
         if (startTime == null || duration == null) {
             throw new IllegalArgumentException("startTime и duration не должны быть null");
         }
-
         return startTime.plus(duration);
     }
 
