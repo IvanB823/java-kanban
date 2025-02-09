@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public class Epic extends Task {
     private ArrayList<Integer> subTasksIds;
+    private LocalDateTime endTime;
 
     public Epic(String taskName, String description) {
         super(taskName, description);
@@ -23,7 +24,7 @@ public class Epic extends Task {
         this.setId(id);
     }
 
-    public Epic(String taskName, String description, Duration duration, LocalDateTime startTime, int id) { // исключительно для тестов
+    public Epic(String taskName, String description, Duration duration, LocalDateTime startTime, int id) {
         super(taskName, description, duration, startTime);
         this.setId(id);
     }
