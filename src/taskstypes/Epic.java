@@ -29,9 +29,6 @@ public class Epic extends Task {
         this.setId(id);
     }
 
-
-
-
     public void addSubtask(int subtaskId) {
         if (subtaskId != this.getId()) {
             subTasksIds.add(subtaskId);
@@ -43,4 +40,11 @@ public class Epic extends Task {
         return subTasksIds;
     }
 
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
 }

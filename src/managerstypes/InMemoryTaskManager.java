@@ -5,22 +5,22 @@ import taskstypes.StatusOfTask;
 import taskstypes.SubTask;
 import taskstypes.Task;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
     protected  HashMap<Integer, Task> tasks;
     protected  HashMap<Integer, Epic> epics;
     protected  HashMap<Integer, SubTask> subtasks;
     private final HistoryManager historyManager = Managers.getDefaultHistory();
+    private final TreeSet<Task> prioritizedTasks;
     private int nextId = 1;
 
 
     public InMemoryTaskManager() {
-        tasks = new HashMap<>();
-        epics = new HashMap<>();
-        subtasks = new HashMap<>();
+        this.tasks = new HashMap<>();
+        this.epics = new HashMap<>();
+        this.subtasks = new HashMap<>();
+        this.prioritizedTasks = new TreeSet<>(Comparator.comparing(Task::getStartTime));
     }
 
     @Override
@@ -220,4 +220,7 @@ public class InMemoryTaskManager implements TaskManager {
         return nextId++;
     }
 
+    public TreeSet<Task> getPrioritizedTasks() {
+        return prioritizedTasks;
+    }
 }
