@@ -66,6 +66,10 @@ public class Task {
     }
 
     public LocalDateTime getStartTime() {
+        if (startTime == null) {
+            return null;
+        }
+
         return startTime;
     }
 

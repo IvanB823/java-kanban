@@ -108,6 +108,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void addTask(Task task) {
+        checkIntersectionOfTasks(task);
         task.setId(generateId());
         tasks.put(task.getId(), task);
     }
@@ -129,6 +130,7 @@ public class InMemoryTaskManager implements TaskManager {
         if (subtask.getStartTime() != null) {
             prioritizedTasks.add(subtask);
         }
+        checkIntersectionOfTasks(subtask);
     }
 
     @Override
@@ -137,6 +139,7 @@ public class InMemoryTaskManager implements TaskManager {
         if (task.getStartTime() != null) {
             prioritizedTasks.add(task);
         }
+        checkIntersectionOfTasks(task);
     }
 
     @Override
@@ -155,6 +158,7 @@ public class InMemoryTaskManager implements TaskManager {
         if (subtask.getStartTime() != null) {
             prioritizedTasks.add(subtask);
         }
+        checkIntersectionOfTasks(subtask);
     }
 
     @Override
@@ -217,6 +221,7 @@ public class InMemoryTaskManager implements TaskManager {
             epic.setStatus(StatusOfTask.NEW);
         }
     }
+
     public void updateEpicTimings(int epicId) {
         Epic epic = epics.get(epicId);
         if (epic.getSubTasksIds().isEmpty()) {
@@ -253,5 +258,15 @@ public class InMemoryTaskManager implements TaskManager {
 
     public TreeSet<Task> getPrioritizedTasks() {
         return prioritizedTasks;
+    }
+
+    private void checkIntersectionOfTasks(Task task) {
+        boolean hasIntersection = prioritizedTasks.stream()
+                .anyMatch(t -> t.getStartTime().isBefore(task.getEndTime())
+                        && task.getStartTime().isBefore(t.getEndTime()));
+
+        if (hasIntersection) {
+            throw new IllegalStateException("Задача пересекается по времени с другой задачей!");
+        }
     }
 }
