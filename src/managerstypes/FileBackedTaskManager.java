@@ -6,6 +6,8 @@ import taskstypes.SubTask;
 import taskstypes.Task;
 import java.io.*;
 import java.nio.file.Files;
+import java.time.Duration;
+import java.time.LocalDateTime;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
     private final File file;
@@ -18,11 +20,14 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         File file = File.createTempFile("file", ".csv", null);
         FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(file);
 
-        Task task = new Task("Задача 1", "тема задачи 1");
+        Task task = new Task("Задача 1", "тема задачи 1",
+                Duration.ofMinutes(55), LocalDateTime.of(2025, 1, 2, 3, 4));
         fileBackedTaskManager.addTask(task);
-        Task task2 = new Task("Задача 2", "тема задачи 2");
+        Task task2 = new Task("Задача 2", "тема задачи 2",
+                Duration.ofMinutes(10), LocalDateTime.of(2025, 2, 6, 7, 8));
         fileBackedTaskManager.addTask(task2);
-        Task task3 = new Task("Задача 3", "тема задачи 3");
+        Task task3 = new Task("Задача 3", "тема задачи 3",
+                Duration.ofMinutes(15), LocalDateTime.of(2025, 3, 10, 11, 12));
         fileBackedTaskManager.addTask(task3);
 
         Epic epic = new Epic("Эпик 1", "тема эпика 1");
@@ -30,9 +35,11 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         Epic epic2 = new Epic("Эпик 2", "тема эпика 2");
         fileBackedTaskManager.addEpic(epic2);
 
-        SubTask subtask = new SubTask("подЗадача1", "тема задачи 1", epic.getId());
+        SubTask subtask = new SubTask("подЗадача1", "тема задачи 1",
+                Duration.ofMinutes(35), LocalDateTime.of(2025, 4, 13, 14, 15), epic.getId());
         fileBackedTaskManager.addSubTask(subtask);
-        SubTask subtask2 = new SubTask("подЗадача2", "тема задачи 2", epic.getId());
+        SubTask subtask2 = new SubTask("подЗадача2", "тема задачи 2",
+                Duration.ofMinutes(25), LocalDateTime.of(2025, 5, 16, 17, 18), epic.getId());
         fileBackedTaskManager.addSubTask(subtask2);
 
         FileBackedTaskManager loadedFileBackedTaskManager = loadFromFile(file);
@@ -144,7 +151,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     private void save() {
         try (Writer writer = new FileWriter(file)) {
-            writer.write("id,type,name,status,description,epic\n");
+            writer.write("id,type,name,status,description,duration,startTime,epic\n");
             for (Task task : getAllTasks()) {
                 writer.write(toString(task));
             }
@@ -160,17 +167,29 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     private String toString(Task task) {
+        String taskStartTime = "null";
+        String taskDuration = "null";
+
+        if (task.getStartTime() != null){
+            taskStartTime = task.getStartTime().toString();
+        }
+
+        if (task.getStartTime() != null){
+            taskDuration = task.getDuration().toString();
+        }
+
         if (task instanceof SubTask) {
             SubTask subtask = (SubTask) task;
             return subtask.getId() + ",SUBTASK," + subtask.getTaskName() + "," + subtask.getStatus() + ","
-                    + subtask.getDescription() + "," + subtask.getEpicId() + "\n";
+                    + subtask.getDescription() + "," + taskDuration + "," + taskStartTime + "," + subtask.getEpicId()
+                    + "\n";
         } else if (task instanceof Epic) {
             Epic epic = (Epic) task;
             return epic.getId() + ",EPIC," + epic.getTaskName() + "," + epic.getStatus() + ","
                     + epic.getDescription() + ",\n";
         } else {
             return task.getId() + ",TASK," + task.getTaskName() + "," + task.getStatus() + ","
-                    + task.getDescription() + ",\n";
+                    + task.getDescription() + "," + taskDuration + "," + taskStartTime + ",\n";
         }
     }
 
@@ -181,10 +200,14 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
         switch (type) {
             case "TASK":
-                return new Task(parts[2], parts[4], StatusOfTask.valueOf(parts[3]), id);
+                return new Task(parts[2], parts[4], StatusOfTask.valueOf(parts[3]), id,
+                        (Duration.parse(parts[5])),
+                        !parts[6].isBlank() ? LocalDateTime.parse(parts[6]) : null);
             case "SUBTASK":
-                int epicId = Integer.parseInt(parts[5]);
-                return new SubTask(parts[2], parts[4], StatusOfTask.valueOf(parts[3]), id, epicId);
+                int epicId = Integer.parseInt(parts[7]);
+                return new SubTask(parts[2], parts[4], StatusOfTask.valueOf(parts[3]), id,
+                        Duration.parse(parts[5]),
+                        !parts[6].isBlank() ? LocalDateTime.parse(parts[6]) : null, epicId);
             case "EPIC":
                 return new Epic(parts[2], parts[4], id, null);
             default:

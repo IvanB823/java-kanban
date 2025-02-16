@@ -111,6 +111,9 @@ public class InMemoryTaskManager implements TaskManager {
         checkIntersectionOfTasks(task);
         task.setId(generateId());
         tasks.put(task.getId(), task);
+        if (task.getStartTime() != null) {
+            prioritizedTasks.add(task);
+        }
     }
 
     @Override
@@ -121,6 +124,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void addSubTask(SubTask subtask) {
+        checkIntersectionOfTasks(subtask);
         subtask.setId(generateId());
         subtasks.put(subtask.getId(), subtask);
         Epic epic = epics.get(subtask.getEpicId());
@@ -130,16 +134,17 @@ public class InMemoryTaskManager implements TaskManager {
         if (subtask.getStartTime() != null) {
             prioritizedTasks.add(subtask);
         }
-        checkIntersectionOfTasks(subtask);
     }
 
     @Override
     public void updateTask(Task task) {
+        checkIntersectionOfTasks(task);
+        Task oldTask = tasks.get(task.getId());
+        prioritizedTasks.remove(oldTask);
         tasks.put(task.getId(), task);
         if (task.getStartTime() != null) {
             prioritizedTasks.add(task);
         }
-        checkIntersectionOfTasks(task);
     }
 
     @Override
@@ -151,14 +156,14 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateSubTask(SubTask subtask) {
-        subtasks.put(subtask.getId(), subtask);
-        Epic epic = epics.get(subtask.getEpicId());
-            updateEpicStatus(epic);
-        updateEpicTimings(epic.getId());
+        SubTask oldSubTask = subtasks.get(subtask.getId());
+        prioritizedTasks.remove(oldSubTask);
+        checkIntersectionOfTasks(subtask);
+        updateEpicStatus(epics.get(subtask.getEpicId()));
+        updateEpicTimings(epics.get(subtask.getEpicId()).getId());
         if (subtask.getStartTime() != null) {
             prioritizedTasks.add(subtask);
         }
-        checkIntersectionOfTasks(subtask);
     }
 
     @Override
@@ -231,9 +236,7 @@ public class InMemoryTaskManager implements TaskManager {
             return;
         }
 
-        List<Task> subTasks = getSubTasksForEpic(epicId).stream()
-                .map(subtaskId -> subtasks.get(subtaskId))
-                .collect(Collectors.toList());
+        List<SubTask> subTasks = getSubTasksForEpic(epicId);
 
         epic.setDuration(subTasks.stream()
                 .map(Task::getDuration)
