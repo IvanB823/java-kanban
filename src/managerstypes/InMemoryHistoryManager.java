@@ -26,11 +26,11 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void remove(int taskId) {
-        if (history.containsKey(taskId)) {
-            history.remove(taskId);
-            removeNode(history.get(taskId));
+        if (history.get(taskId) == null) {
+            return;
         }
-
+        removeNode(history.get(taskId));
+        history.remove(taskId);
     }
 
     private void linkLast(Task task) {
@@ -64,23 +64,19 @@ public class InMemoryHistoryManager implements HistoryManager {
             return;
         }
 
-        if (node.getPrev() == null) {
-            head = node.getNext();
-            if (head != null) {
-                head.setPrev(null);
-            }
-        } else {
+        if (node.getPrev() != null) {
             node.getPrev().setNext(node.getNext());
-        }
-        if (node.getNext() == null) {
-            tail = node.getPrev();
-            if (tail != null) {
-                tail.setNext(null);
-            }
         } else {
-            node.getNext().setPrev(node.getPrev());
+            head = node.getNext();
         }
-    }
 
+        if (node.getNext() != null) {
+            node.getNext().setPrev(node.getPrev());
+        } else {
+            tail = node.getPrev();
+        }
+
+        history.remove(node.getTask().getId());
+    }
 }
 

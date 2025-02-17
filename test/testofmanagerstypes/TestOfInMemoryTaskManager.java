@@ -1,4 +1,5 @@
 package testofmanagerstypes;
+import managerstypes.InMemoryTaskManager;
 import managerstypes.Managers;
 import taskstypes.StatusOfTask;
 import taskstypes.Epic;
@@ -12,7 +13,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TestOfInMemoryTaskManager {
+public class TestOfInMemoryTaskManager extends TestTaskManager<InMemoryTaskManager> {
     private TaskManager taskManager;
     private Task task1;
     private Task task2;
@@ -33,10 +34,10 @@ public class TestOfInMemoryTaskManager {
     void shouldKeepOnlyUniqueIdsInHistory() {
         taskManager.addTask(new Task("Задача1", "тема задачи 1"));
         taskManager.addTask(new Task("Задача2", "тема задачи 2"));
-        taskManager.getTask(0);
+        taskManager.getTask(2);
         taskManager.getTask(1);
         taskManager.getTask(1);
-        taskManager.getTask(0);
+        taskManager.getTask(2);
         assertEquals(2, taskManager.getHistory().size());
     }
 
@@ -46,10 +47,8 @@ public class TestOfInMemoryTaskManager {
         taskManager.addTask(new Task("Задача2", "тема задачи 2"));
         taskManager.getTask(0);
         taskManager.getTask(1);
-        taskManager.getTask(1);
-        taskManager.getTask(0);
-        assertEquals(taskManager.getTask(1), taskManager.getHistory().get(1));
         int i = taskManager.getHistory().size();
+        assertEquals(taskManager.getTask(1), taskManager.getHistory().get(0));
     }
 
     @Test
@@ -129,8 +128,7 @@ public class TestOfInMemoryTaskManager {
         taskManager.addEpic(epic1);
         Epic updateEpic1 = new Epic("эпик1", "описание эпика1", epic1.getId(),
                 epic1.getSubTasksIds());
-        SubTask subtask1 = new SubTask("Сабтаск1", "описание сабтаск1", StatusOfTask.NEW,
-                epic1.getId(), epic1.getId());
+        SubTask subtask1 = new SubTask("Сабтаск1", "описание сабтаск1", epic1.getId());
         taskManager.addSubTask(subtask1);
         updateEpic1.addSubtask(epic1.getId());
         taskManager.updateEpic(updateEpic1);
@@ -242,5 +240,10 @@ public class TestOfInMemoryTaskManager {
         assertTrue(subtasks.contains(subtask2));
         assertNotEquals(epic1Status, actualEpicStatus);
 
+    }
+
+    @Override
+    InMemoryTaskManager createManager() {
+        return new InMemoryTaskManager();
     }
 }

@@ -88,7 +88,7 @@ public class Task {
 
     public LocalDateTime getEndTime() {
         if (startTime == null || duration == null) {
-            throw new IllegalArgumentException("startTime и duration не должны быть null");
+            return null;
         }
         return startTime.plus(duration);
     }
