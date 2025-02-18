@@ -204,7 +204,11 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
 
-    public void updateEpicStatus(Epic epic) {
+    public TreeSet<Task> getPrioritizedTasks() {
+        return prioritizedTasks;
+    }
+
+    private void updateEpicStatus(Epic epic) {
         if (epic.getSubTasksIds().isEmpty()) {
             epic.setStatus(StatusOfTask.NEW);
             return;
@@ -229,7 +233,21 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    public void updateEpicTimings(int epicId) {
+    private int generateId() {
+        return nextId++;
+    }
+
+    private void checkIntersectionOfTasks(Task task) {
+        boolean hasIntersection = prioritizedTasks.stream()
+                .anyMatch(t -> t.getStartTime().isBefore(task.getEndTime())
+                        && task.getStartTime().isBefore(t.getEndTime()));
+
+        if (hasIntersection) {
+            throw new IllegalStateException("Задача пересекается по времени с другой задачей!");
+        }
+    }
+
+    private void updateEpicTimings(int epicId) {
         Epic epic = epics.get(epicId);
         if (epic.getSubTasksIds().isEmpty()) {
             epic.setDuration(Duration.ZERO);
@@ -256,23 +274,5 @@ public class InMemoryTaskManager implements TaskManager {
                 .filter(end -> end != null)
                 .max(LocalDateTime::compareTo)
                 .orElse(null));
-    }
-
-    public int generateId() {
-        return nextId++;
-    }
-
-    public TreeSet<Task> getPrioritizedTasks() {
-        return prioritizedTasks;
-    }
-
-    private void checkIntersectionOfTasks(Task task) {
-        boolean hasIntersection = prioritizedTasks.stream()
-                .anyMatch(t -> t.getStartTime().isBefore(task.getEndTime())
-                        && task.getStartTime().isBefore(t.getEndTime()));
-
-        if (hasIntersection) {
-            throw new IllegalStateException("Задача пересекается по времени с другой задачей!");
-        }
     }
 }
