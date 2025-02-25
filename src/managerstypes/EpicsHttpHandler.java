@@ -5,8 +5,7 @@ import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
 
-public class TasksHttpHandler extends BaseHttpHandler implements HttpHandler {
-
+public class EpicsHttpHandler extends BaseHttpHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
 
