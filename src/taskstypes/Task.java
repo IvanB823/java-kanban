@@ -11,6 +11,7 @@ public class Task {
     private StatusOfTask status;
     private Duration duration;
     private LocalDateTime startTime;
+    protected final String type = getClass().getSimpleName();
 
     public Task(String taskName, String description) {
         this.taskName = taskName;
@@ -108,13 +109,14 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
+        return type + "{" +
                 "taskName='" + taskName + '\'' +
                 ", description='" + description + '\'' +
                 ", id=" + id +
                 ", status=" + status +
                 ", duration=" + duration +
                 ", startTime=" + startTime +
+                ", type=" + type + '\'' +
                 '}';
     }
 }
