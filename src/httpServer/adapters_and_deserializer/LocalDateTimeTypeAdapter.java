@@ -1,4 +1,4 @@
-package managerstypes;
+package httpServer.adapters_and_deserializer;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;

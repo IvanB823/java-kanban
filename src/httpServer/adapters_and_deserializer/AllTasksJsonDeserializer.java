@@ -1,6 +1,7 @@
-package managerstypes;
+package httpServer.adapters_and_deserializer;
 
 import com.google.gson.*;
+import httpServer.HttpTaskServer;
 import taskstypes.Epic;
 import taskstypes.SubTask;
 import taskstypes.Task;

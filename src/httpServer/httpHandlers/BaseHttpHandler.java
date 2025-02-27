@@ -1,9 +1,10 @@
-package managerstypes;
+package httpServer.httpHandlers;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
+import managerstypes.TaskManager;
 
 public class BaseHttpHandler {
 

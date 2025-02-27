@@ -1,9 +1,10 @@
-package managerstypes;
+package httpServer.httpHandlers;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import managerstypes.TaskManager;
 import taskstypes.SubTask;
 
 import java.io.IOException;

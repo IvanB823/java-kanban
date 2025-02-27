@@ -1,7 +1,12 @@
-package managerstypes;
+package httpServer;
 import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpServer;
 import com.google.gson.Gson;
+import httpServer.adapters_and_deserializer.AllTasksJsonDeserializer;
+import httpServer.adapters_and_deserializer.DurationTypeAdapter;
+import httpServer.adapters_and_deserializer.LocalDateTimeTypeAdapter;
+import httpServer.httpHandlers.*;
+import managerstypes.*;
 import taskstypes.Task;
 
 import java.io.IOException;
@@ -35,16 +40,14 @@ public class HttpTaskServer {
         TaskManager taskManager = Managers.getDefault();
         HttpTaskServer httpTaskServer = new HttpTaskServer(taskManager);
         httpTaskServer.start();
-        Task task = new Task("Имя задачи 1", "Описание задачи 1",
-                Duration.ofMinutes(55),
+        Task task = new Task("Имя задачи 1", "Описание задачи 1", Duration.ofMinutes(55),
                 LocalDateTime.of(2025, 2, 7, 16, 27));
-        Task task2 = new Task("Имя задачи 2", "Описание задачи 2",
-                Duration.ofMinutes(55),
-                LocalDateTime.of(2025, 2, 7, 17, 27));
+        Task task2 = new Task("Имя задачи 2", "Описание задачи 2", Duration.ofMinutes(45),
+                LocalDateTime.of(2025, 3, 8, 18, 37));
         taskManager.addTask(task);
         taskManager.addTask(task2);
         URI uri = URI.create("http://localhost:8080/tasks");
-        HttpRequest request = HttpRequest.newBuilder() // получаем экземпляр билдера
+        HttpRequest request = HttpRequest.newBuilder()
                 .GET()
                 .uri(uri)
                 .header("Accept", "application/json")
