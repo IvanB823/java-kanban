@@ -1,7 +1,5 @@
 package managerstypes;
 import com.google.gson.GsonBuilder;
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import com.google.gson.Gson;
 import taskstypes.Task;
@@ -63,6 +61,7 @@ public class HttpTaskServer {
                 .setPrettyPrinting()
                 .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeTypeAdapter())
                 .registerTypeAdapter(Duration.class, new DurationTypeAdapter())
+                .registerTypeAdapter(Task.class, new AllTasksJsonDeserializer())
                 .create();
     }
 
