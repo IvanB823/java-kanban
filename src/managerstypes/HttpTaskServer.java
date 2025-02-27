@@ -58,6 +58,22 @@ public class HttpTaskServer {
         httpTaskServer.stop();
     }
 
+    public static Gson getGson() {
+        return new GsonBuilder()
+                .setPrettyPrinting()
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeTypeAdapter())
+                .registerTypeAdapter(Duration.class, new DurationTypeAdapter())
+                .create();
+    }
+
+    public static Gson getRegularGson() {
+        return new GsonBuilder()
+                .setPrettyPrinting()
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeTypeAdapter())
+                .registerTypeAdapter(Duration.class, new DurationTypeAdapter())
+                .create();
+    }
+
     public void start() {
         server.start();
         System.out.println("HTTP-сервер запущен на " + PORT + " порту!");
