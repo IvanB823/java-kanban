@@ -203,9 +203,9 @@ public class InMemoryTaskManager implements TaskManager {
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
-
-    public TreeSet<Task> getPrioritizedTasks() {
-        return prioritizedTasks;
+    @Override
+    public List<Task> getPrioritizedTasks() {
+        return new ArrayList<>(prioritizedTasks);
     }
 
     private void updateEpicStatus(Epic epic) {
