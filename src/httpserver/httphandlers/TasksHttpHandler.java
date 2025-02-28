@@ -1,19 +1,19 @@
-package httpServer.httphandlers;
+package httpserver.httphandlers;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import managerstypes.TaskManager;
-import taskstypes.SubTask;
+import taskstypes.Task;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-public class SubtasksHttpHandler extends BaseHttpHandler implements HttpHandler {
+public class TasksHttpHandler extends BaseHttpHandler implements HttpHandler {
 
-    public SubtasksHttpHandler(TaskManager taskManager, Gson gson) {
+    public TasksHttpHandler(TaskManager taskManager, Gson gson) {
         super(taskManager, gson);
     }
 
@@ -27,46 +27,48 @@ public class SubtasksHttpHandler extends BaseHttpHandler implements HttpHandler 
             switch (exchange.getRequestMethod()) {
                 case "GET":
                     if (parts.length < 3) {
-                        List<SubTask> subTasks = taskManager.getAllSubTasks();
-                        String response = gson.toJson(subTasks);
+                        List<Task> tasks = taskManager.getAllTasks();
+                        String response = gson.toJson(tasks);
                         sendJson(exchange, response);
+                        System.out.println("Задачи получены.");
                     } else {
                         try {
                             int id = Integer.parseInt(parts[2]);
-                            SubTask subTask = taskManager.getSubTask(id);
-                            String response = gson.toJson(subTask);
+                            Task task = taskManager.getTask(id);
+                            String response = gson.toJson(task);
                             sendJson(exchange, response);
                         } catch (NumberFormatException e) {
-                            sendNotFound(exchange, "Подзадача не найдена, указан неверный ID подзадачи");
+                            sendNotFound(exchange, "Задача не найдена, указан неверный ID задачи");
                         }
                     }
                     break;
                 case "POST":
                     String body = new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
-                    SubTask subTask = gson.fromJson(body, SubTask.class);
+                    Task task = gson.fromJson(body, Task.class);
                     try {
-                        if (subTask.getId() > 0) {
-                            taskManager.updateSubTask(subTask);
+                        if (task.getId() > 0) {
+                            taskManager.updateTask(task);
                         } else {
-                            taskManager.addSubTask(subTask);
+                            taskManager.addTask(task);
                         }
-                        sendText(exchange, "Подзадача сохранена успешно", 201);
+                        System.out.println("201. Задача сохранена.");
+                        sendText(exchange, "Задача сохранена", 201);
                     } catch (JsonSyntaxException e) {
                         sendWrongRequest(exchange, "Некорректный формат JSON");
                     } catch (RuntimeException e) {
-                        sendHasInteractions(exchange, "Подзадача пересекается с существующими задачами");
+                        sendHasInteractions(exchange, "Задача пересекается с существующими задачами");
                     }
                     break;
                 case "DELETE":
                     if (parts.length < 3) {
-                        sendNotFound(exchange, "Подзадача не найдена, не указан ID подзадачи");
+                        sendNotFound(exchange, "Задача не найдена, не указан ID задачи");
                     } else {
                         try {
                             int id = Integer.parseInt(parts[2]);
-                            taskManager.removeSubTask(id);
-                            sendText(exchange, "Подзадача удалена", 200);
-                        } catch (RuntimeException e) {
-                            sendNotFound(exchange, "Подзадача не найдена, указан неверный ID подзадачи");
+                            taskManager.removeTask(id);
+                            sendText(exchange, "Задача удалена успешно", 200);
+                        } catch (NumberFormatException e) {
+                            sendNotFound(exchange, "Задача не найдена, указан неверный ID задачи");
                         }
                     }
                     break;

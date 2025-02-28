@@ -1,11 +1,11 @@
-package httpServer;
+package httpserver;
 import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpServer;
 import com.google.gson.Gson;
-import httpServer.adaptersanddeserializer.AllTasksJsonDeserializer;
-import httpServer.adaptersanddeserializer.DurationTypeAdapter;
-import httpServer.adaptersanddeserializer.LocalDateTimeTypeAdapter;
-import httpServer.httphandlers.*;
+import httpserver.adaptersanddeserializer.AllTasksJsonDeserializer;
+import httpserver.adaptersanddeserializer.DurationTypeAdapter;
+import httpserver.adaptersanddeserializer.LocalDateTimeTypeAdapter;
+import httpserver.httphandlers.*;
 import managerstypes.*;
 import taskstypes.Task;
 

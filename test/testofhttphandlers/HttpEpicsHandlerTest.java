@@ -3,7 +3,7 @@ package testofhttphandlers;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import httpServer.HttpTaskServer;
+import httpserver.HttpTaskServer;
 import managerstypes.Managers;
 import managerstypes.TaskManager;
 import org.junit.jupiter.api.AfterEach;
