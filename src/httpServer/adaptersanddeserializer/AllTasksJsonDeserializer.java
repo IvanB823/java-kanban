@@ -1,4 +1,4 @@
-package httpServer.adapters_and_deserializer;
+package httpServer.adaptersanddeserializer;
 
 import com.google.gson.*;
 import httpServer.HttpTaskServer;
