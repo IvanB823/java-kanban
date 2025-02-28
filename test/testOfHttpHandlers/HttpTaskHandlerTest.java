@@ -49,7 +49,7 @@ public class HttpTaskHandlerTest {
     }
 
     @AfterEach
-    void shutDown() {
+    void serverStop() {
         httpTaskServer.stop();
     }
 
