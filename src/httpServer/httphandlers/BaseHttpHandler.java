@@ -1,4 +1,4 @@
-package httpServer.httpHandlers;
+package httpServer.httphandlers;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 

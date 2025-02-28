@@ -5,7 +5,7 @@ import com.google.gson.Gson;
 import httpServer.adapters_and_deserializer.AllTasksJsonDeserializer;
 import httpServer.adapters_and_deserializer.DurationTypeAdapter;
 import httpServer.adapters_and_deserializer.LocalDateTimeTypeAdapter;
-import httpServer.httpHandlers.*;
+import httpServer.httphandlers.*;
 import managerstypes.*;
 import taskstypes.Task;
 

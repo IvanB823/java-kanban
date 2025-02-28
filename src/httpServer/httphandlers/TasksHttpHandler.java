@@ -1,4 +1,4 @@
-package httpServer.httpHandlers;
+package httpServer.httphandlers;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;

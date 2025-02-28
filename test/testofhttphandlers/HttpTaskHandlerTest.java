@@ -1,4 +1,4 @@
-package testOfHttpHandlers;
+package testofhttphandlers;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

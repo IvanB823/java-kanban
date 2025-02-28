@@ -1,4 +1,4 @@
-package testOfHttpHandlers;
+package testofhttphandlers;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import taskstypes.StatusOfTask;
 import taskstypes.Task;
+
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -25,13 +26,13 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class HttpPrioritizedHandlerTest {
+public class HttpHistoryHandlerTest {
 
     private final TaskManager taskManager = Managers.getDefault();
     private final HttpTaskServer httpTaskServer = new HttpTaskServer(taskManager);
     Gson gson = HttpTaskServer.getGson();
 
-    public HttpPrioritizedHandlerTest() throws IOException {
+    public HttpHistoryHandlerTest() throws IOException {
     }
 
     @BeforeEach
@@ -40,12 +41,14 @@ public class HttpPrioritizedHandlerTest {
         taskManager.removeAllSubTasks();
         taskManager.removeAllEpics();
         httpTaskServer.start();
-        Task task = new Task("Задача 1", "Описание задачи 1", StatusOfTask.NEW, 1, Duration.ofMinutes(41),
-                LocalDateTime.of(2025, 1, 2, 3, 27));
-        Task task2 = new Task("Задача 2", "Описание задачи 2", StatusOfTask.NEW, 2, Duration.ofMinutes(13),
-                LocalDateTime.of(2025, 5, 5, 11, 22));
+        Task task = new Task("Задача 1", "Описание задачи 1", StatusOfTask.NEW, 1, Duration.ofMinutes(12),
+                LocalDateTime.of(2024, 12, 3, 22, 12));
+        Task task2 = new Task("Задача 2", "Описание задачи 2", StatusOfTask.NEW, 2, Duration.ofMinutes(36),
+                LocalDateTime.of(2025, 3, 9, 11, 25));
         taskManager.addTask(task);
         taskManager.addTask(task2);
+        taskManager.getTask(task2.getId());
+        taskManager.getTask(task.getId());
     }
 
     @AfterEach
@@ -54,8 +57,8 @@ public class HttpPrioritizedHandlerTest {
     }
 
     @Test
-    void getPrioritizedTest() throws IOException, InterruptedException {
-        URI uri = URI.create("http://localhost:8080/prioritized");
+    void getHistoryTest() throws IOException, InterruptedException {
+        URI uri = URI.create("http://localhost:8080/history");
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
                 .uri(uri)
@@ -68,11 +71,12 @@ public class HttpPrioritizedHandlerTest {
         assertEquals(200, response.statusCode());
 
         Type taskType = new TypeToken<ArrayList<Task>>() {}.getType();
-        List<Task> prioritized = gson.fromJson(response.body(), taskType);
+        List<Task> history = gson.fromJson(response.body(), taskType);
 
-        assertNotNull(prioritized);
-        assertEquals(2, prioritized.size());
-        assertEquals("Задача 1", prioritized.get(0).getTaskName());
-        assertEquals("Задача 2", prioritized.get(1).getTaskName());
+        assertNotNull(history, "Задачи не возвращаются");
+        assertEquals(2, history.size());
+        assertEquals("Задача 2", history.get(0).getTaskName());
+        assertEquals("Задача 1", history.get(1).getTaskName());
     }
 }
+
